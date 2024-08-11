@@ -1,10 +1,7 @@
 package com.zikan.fintech_Bank_App.controller;
 
 
-import com.zikan.fintech_Bank_App.dto.BankResponse;
-import com.zikan.fintech_Bank_App.dto.CreditDebitRequest;
-import com.zikan.fintech_Bank_App.dto.EnquiryRequest;
-import com.zikan.fintech_Bank_App.dto.UserRequest;
+import com.zikan.fintech_Bank_App.dto.*;
 import com.zikan.fintech_Bank_App.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,6 +40,12 @@ public class UserController {
     @PostMapping("/debit")
     public BankResponse debitAccount (@RequestBody CreditDebitRequest request){
         return userService.debitAccount(request);
+    }
+
+    @PostMapping("/transfer")
+    public BankResponse transfer (@RequestBody TransferRequest request){
+       return userService.transfer(request);
+
     }
 
 }
