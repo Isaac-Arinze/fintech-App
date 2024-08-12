@@ -4,6 +4,7 @@ import com.zikan.fintech_Bank_App.dto.*;
 import com.zikan.fintech_Bank_App.entity.User;
 import com.zikan.fintech_Bank_App.repository.UserRepository;
 import com.zikan.fintech_Bank_App.service.EmailService;
+import com.zikan.fintech_Bank_App.service.TransactionService;
 import com.zikan.fintech_Bank_App.service.UserService;
 import com.zikan.fintech_Bank_App.utils.AccountUtils;
 import org.springframework.stereotype.Service;
@@ -19,9 +20,13 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
-    public UserServiceImpl(EmailService emailService, UserRepository userRepository) {
+    private final TransactionService transactionService;
+
+
+    public UserServiceImpl(EmailService emailService, UserRepository userRepository, TransactionService transactionService) {
         this.emailService = emailService;
         this.userRepository = userRepository;
+        this.transactionService = transactionService;
     }
 
     @Override
@@ -131,13 +136,22 @@ public class UserServiceImpl implements UserService {
                     .responseMessage(AccountUtils.ACCOUNT_EXISTS_MESSAGE)
                     .accountInfo(null)
                     .build();
-
         }
 
         // to credit and update amount
         User userToCredit = userRepository.findByAccountNumber(request.getAccountNumber());
         userToCredit.setAccountBalance(userToCredit.getAccountBalance().add(request.getAmount()));
         userRepository.save(userToCredit);
+
+        //at d pt of saving userCrdit, we alsowant to save the transaction
+
+        TransactionDto transactionDto = TransactionDto.builder()
+                .accountNumber(userToCredit.getAccountNumber())
+                .transactionType("CREDIT")
+                .amount(request.getAmount())
+                .build();
+        transactionService.saveTransaction(transactionDto);
+
 
         return BankResponse.builder()
 
@@ -179,9 +193,17 @@ public class UserServiceImpl implements UserService {
                     .responseMessage(AccountUtils.INSUFFICIENT_BALANCE_MESSAGE)
                     .accountInfo(null)
                     .build();
-        } else {
+        }
+
+        else {
             userToDebit.setAccountBalance(userToDebit.getAccountBalance().subtract(request.getAmount()));
             userRepository.save(userToDebit);
+            TransactionDto transactionDto = TransactionDto.builder()
+                    .accountNumber(userToDebit.getAccountNumber())
+                    .transactionType("DEBIT")
+                    .amount(request.getAmount())
+                    .build();
+            transactionService.saveTransaction(transactionDto);
 
             return BankResponse.builder()
                     .responseCode(AccountUtils.ACCOUNT_DEBITED_SUCCESS)
@@ -236,6 +258,13 @@ public class UserServiceImpl implements UserService {
                 .build();
 
         emailService.sendEmailAlert(debitAlert);
+//
+//        TransactionDto transactionDto = TransactionDto.builder()
+//                .accountNumber(sourceAccountUser.getAccountNumber())
+//                .transactionType("DEBIT")
+//                .amount(request.getAmount())
+//                .build();
+//        transactionService.saveTransaction(transactionDto);
 
         // Credit the account
         destinationAccountUser.setAccountBalance(destinationAccountUser.getAccountBalance().add(request.getAmount()));
@@ -249,6 +278,13 @@ public class UserServiceImpl implements UserService {
                 .build();
 
         emailService.sendEmailAlert(creditAlert);
+
+        TransactionDto transactionDto = TransactionDto.builder()
+                .accountNumber(destinationAccountUser.getAccountNumber())
+                .transactionType("DEBIT")
+                .amount(request.getAmount())
+                .build();
+        transactionService.saveTransaction(transactionDto);
 
         return BankResponse.builder()
                 .responseCode(AccountUtils.TRANSFER_SUCCESSFUL_CODE)

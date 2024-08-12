@@ -3,10 +3,14 @@ package com.zikan.fintech_Bank_App.controller;
 
 import com.zikan.fintech_Bank_App.dto.*;
 import com.zikan.fintech_Bank_App.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/user")
+@Tag(name = "User Management APIs")
 public class UserController {
 
 
@@ -15,12 +19,28 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
-
+    @Operation(
+            summary = "Create New User Account",
+            description = "Creating a new user and assigning an account ID"
+    )
+    @ApiResponse(
+            responseCode = "201",
+            description = "Http status 201 CREATED"
+    )
 
    @PostMapping("/create")
     public BankResponse createAccount (@RequestBody UserRequest userRequest){
         return userService.createAccount(userRequest);
     }
+
+    @Operation(
+            summary = "Balance Enquiry",
+            description = "Check available balance for a specific account number"
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Http state 200 Success"
+    )
 
     @GetMapping("/balanceEnqiry")
     public BankResponse balanceEnquiry (@RequestBody EnquiryRequest request){
