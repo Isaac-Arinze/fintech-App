@@ -2,3 +2,10 @@
 2. Add password field to user entity (encrypt the password)
 3. Create 4 classes, 3 to handle Jwt and 1 for security configuration
 4. Add a bean of UserdetailService to handle fetching users by username
+
+
+OTP Procedure
+1. Email configuration and email service
+2. Create method that generates a random four (4) digit code
+3. Create a method to send d OTP
+4. A method to validate the otp (checking d correctness of d code, time elapsement)

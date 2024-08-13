@@ -1,6 +1,7 @@
 package com.zikan.fintech_Bank_App.utils;
 
 import java.time.Year;
+import java.util.Random;
 
 
 public class AccountUtils {
@@ -44,6 +45,17 @@ public class AccountUtils {
 
         return accountNumber.append(year).append(randomNumber).toString();
 
+    }
+
+    public static String generateOtp(){
+        StringBuilder otp = new StringBuilder();
+        Random random = new Random();
+        int count = 0;
+        while (count < 4){
+            otp.append(random.nextInt(10));
+            ++count;
+        }
+        return otp.toString() ;
     }
 
 }

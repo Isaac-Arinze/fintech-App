@@ -9,6 +9,7 @@ import com.zikan.fintech_Bank_App.service.EmailService;
 import com.zikan.fintech_Bank_App.service.TransactionService;
 import com.zikan.fintech_Bank_App.service.UserService;
 import com.zikan.fintech_Bank_App.utils.AccountUtils;
+import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -32,14 +33,19 @@ public class UserServiceImpl implements UserService {
 
     private final JwtTokenProvider jwtTokenProvider;
 
+    private final ModelMapper modelMapper;
 
-    public UserServiceImpl(EmailService emailService, UserRepository userRepository, TransactionService transactionService, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider) {
+
+
+
+    public UserServiceImpl(EmailService emailService, UserRepository userRepository, TransactionService transactionService, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider, ModelMapper modelMapper) {
         this.emailService = emailService;
         this.userRepository = userRepository;
         this.transactionService = transactionService;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
         this.jwtTokenProvider = jwtTokenProvider;
+        this.modelMapper = modelMapper;
     }
 
     @Override
@@ -115,6 +121,26 @@ public class UserServiceImpl implements UserService {
                 .responseCode("Login Success")
                 .responseMessage(jwtTokenProvider.generateToken(authentication))
                 .build();
+    }
+
+    @Override
+    public BankResponse sendOtp() {
+        return null;
+    }
+
+    @Override
+    public BankResponse validateOtp() {
+        return null;
+    }
+
+    @Override
+    public BankResponse resetPassword() {
+        return null;
+    }
+
+    @Override
+    public BankResponse changePassword() {
+        return null;
     }
 
     @Override

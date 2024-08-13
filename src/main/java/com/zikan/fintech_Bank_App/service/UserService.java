@@ -19,4 +19,10 @@ public interface UserService {
 
     BankResponse login (LoginDto loginDto);
 
+    BankResponse sendOtp();
+
+    BankResponse validateOtp();
+    BankResponse resetPassword();
+    BankResponse changePassword();
+
 }
