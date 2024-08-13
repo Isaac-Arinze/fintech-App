@@ -1,19 +1,24 @@
 package com.zikan.fintech_Bank_App.service.impl;
 
+import com.zikan.fintech_Bank_App.config.JwtTokenProvider;
 import com.zikan.fintech_Bank_App.dto.*;
+import com.zikan.fintech_Bank_App.entity.Role;
 import com.zikan.fintech_Bank_App.entity.User;
 import com.zikan.fintech_Bank_App.repository.UserRepository;
 import com.zikan.fintech_Bank_App.service.EmailService;
 import com.zikan.fintech_Bank_App.service.TransactionService;
 import com.zikan.fintech_Bank_App.service.UserService;
 import com.zikan.fintech_Bank_App.utils.AccountUtils;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
 @Service
-
 public class UserServiceImpl implements UserService {
 
     private final EmailService emailService;
@@ -22,11 +27,19 @@ public class UserServiceImpl implements UserService {
 
     private final TransactionService transactionService;
 
+    private final PasswordEncoder passwordEncoder;
+    private final AuthenticationManager authenticationManager;
 
-    public UserServiceImpl(EmailService emailService, UserRepository userRepository, TransactionService transactionService) {
+    private final JwtTokenProvider jwtTokenProvider;
+
+
+    public UserServiceImpl(EmailService emailService, UserRepository userRepository, TransactionService transactionService, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider) {
         this.emailService = emailService;
         this.userRepository = userRepository;
         this.transactionService = transactionService;
+        this.passwordEncoder = passwordEncoder;
+        this.authenticationManager = authenticationManager;
+        this.jwtTokenProvider = jwtTokenProvider;
     }
 
     @Override
@@ -54,9 +67,11 @@ public class UserServiceImpl implements UserService {
                 .accountNumber(AccountUtils.generateAccountNumber())  // create a method in utils to handle creation of acctNumber
                 .accountBalance(BigDecimal.ZERO)
                 .email(userRequest.getEmail())
+                .password(passwordEncoder.encode(userRequest.getPassword()))
                 .phoneNumber(userRequest.getPhoneNumber())
                 .alternativePhoneNumber(userRequest.getAlternativePhoneNumber())
                 .status("ACTIVE")
+                .role(Role.ROLE_ADMIN)
                 .build();
 
         User savedUser = userRepository.save(newUser);
@@ -65,7 +80,7 @@ public class UserServiceImpl implements UserService {
         EmailDetails emailDetails = EmailDetails.builder()
                 .recipient(savedUser.getEmail())
                 .subject("ACCOUNT CREATION")
-                .messageBody("Congratulations! Yoour Account has been successfully created\n Find account details below \n " +
+                .messageBody("Congratulations! Your Account has been successfully created\n Find account details below \n " +
                         "Account Name: " + savedUser.getFirstName() + " " + savedUser.getLastName() + " " + savedUser.getOtherName() + "\nAccount Number: " + savedUser.getAccountNumber() + "\n Thank you for choosing skytech Computer Academy")
                 .build();
 
@@ -81,8 +96,25 @@ public class UserServiceImpl implements UserService {
                         .accountName(savedUser.getFirstName() + " " + savedUser.getLastName() + " " + savedUser.getOtherName())
                         .build())
                 .build();
+    }
 
+    public BankResponse login (LoginDto loginDto){
+        Authentication authentication = null;
 
+        authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword())
+        );
+        EmailDetails loginAlert = EmailDetails.builder()
+                .subject("You're logged into in!")
+                .recipient(loginDto.getEmail())
+                .messageBody("you logged into your account, if you did not initiate this request, Please contact your bank ")
+                .build();
+        emailService.sendEmailAlert(loginAlert);
+
+        return BankResponse.builder()
+                .responseCode("Login Success")
+                .responseMessage(jwtTokenProvider.generateToken(authentication))
+                .build();
     }
 
     @Override
