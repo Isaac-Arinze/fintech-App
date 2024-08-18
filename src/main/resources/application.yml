@@ -1,0 +1,40 @@
+spring:
+  application:
+    name: fintech-Bank-App
+  datasource:
+    url: jdbc:mysql://localhost:3306/bankDB
+    username: root
+    password: zikans@19
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: skytecomputer@gmail.com
+    password: nrmj friw chck wlfc
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            client-id: Ov23li66crkpr1Mv0aIC
+            client-secret: cd0ac55f07feb4f76f77e9c9e3e00982afef2c83
+          google:
+            client-id: 228783255239-1r20mt6fdufo8g8bn12nh0c3n4vr4o32.apps.googleusercontent.com
+            client-secret: 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
+logging:
+  level:
+    org:
+      springframework:
+        security: TRACE
+app:
+  jwt-secret: 8e3f0b1d5d2a4c8b92e1fc1a765bf2434d6c72e6f5b943e2c1c1e2d6b4db7a22
+  jwt-expiration: 86400000
