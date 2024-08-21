@@ -97,7 +97,5 @@ public class OtpService {
     }
 
 
-    // Assetd Otp hasnt expired
-    // assert d otp is correct
 
 }

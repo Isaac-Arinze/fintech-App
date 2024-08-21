@@ -58,8 +58,13 @@ public class SecurityConfig {
                         authorize.requestMatchers(HttpMethod.POST, "/api/user/create").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/api/user/login").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/api/v1/otp/**").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/api/otp/process").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/api/otp/send-otp-sms").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/api/otp/validate-otp-sms").permitAll()
+                                .requestMatchers("/public/**").permitAll() // Allow access to public endpoints
+                                .requestMatchers("/admin/**").hasRole("ADMIN")
                                 .anyRequest().authenticated())
-                .oauth2Login(withDefaults())
+//                .oauth2Login(withDefaults())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
