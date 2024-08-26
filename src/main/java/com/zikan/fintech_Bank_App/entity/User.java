@@ -35,6 +35,8 @@ public class User implements UserDetails {
     private String accountNumber;
     private BigDecimal accountBalance;
     private String email;
+    @OneToOne(mappedBy = "user")
+    private ForgotPassword forgotPassword;
     private String password;
     private String phoneNumber;
     private String alternativePhoneNumber;

@@ -60,7 +60,7 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.POST, "/api/v1/otp/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/otp/process").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/api/otp/send-otp-sms").permitAll()
-                                .requestMatchers(HttpMethod.POST, "/api/otp/validate-otp-sms").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/api/otp/validate-otp-sms", "/forgotPassword/**" ).permitAll()
                                 .requestMatchers("/public/**").permitAll() // Allow access to public endpoints
                                 .requestMatchers("/admin/**").hasRole("ADMIN")
                                 .anyRequest().authenticated())

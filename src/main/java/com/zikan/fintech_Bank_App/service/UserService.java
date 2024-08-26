@@ -1,6 +1,7 @@
 package com.zikan.fintech_Bank_App.service;
 
 import com.zikan.fintech_Bank_App.dto.*;
+import com.zikan.fintech_Bank_App.entity.User;
 
 public interface UserService {
 
@@ -24,5 +25,9 @@ public interface UserService {
     BankResponse validateOtp();
     BankResponse resetPassword();
     BankResponse changePassword();
+
+    User updateAccount(UserRequest userRequest, Long userId);
+
+    void deleteAccount (Long userId);
 
 }

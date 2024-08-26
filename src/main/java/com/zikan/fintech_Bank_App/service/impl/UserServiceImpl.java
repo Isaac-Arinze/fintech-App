@@ -13,6 +13,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -141,6 +142,23 @@ public class UserServiceImpl implements UserService {
     @Override
     public BankResponse changePassword() {
         return null;
+    }
+
+    @Override
+    public User updateAccount(UserRequest userRequest, Long userId) {
+
+    User user = this.userRepository.findById(userId).orElseThrow(()->new UsernameNotFoundException("User not found with id " + userId));
+        user.setFirstName(userRequest.getFirstName());
+        user.setOtherName(userRequest.getOtherName());
+        user.setLastName(userRequest.getLastName());
+        user.setStateOfOrigin(userRequest.getStateOfOrigin());
+        return userRepository.save(user);
+    }
+
+    @Override
+    public void deleteAccount(Long userId) {
+        User user = this.userRepository.findById(userId).orElseThrow(()-> new UsernameNotFoundException ("User not found" + userId));
+        this.userRepository.delete(user);
     }
 
     @Override

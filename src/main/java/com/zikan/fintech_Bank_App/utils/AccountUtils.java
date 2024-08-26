@@ -24,6 +24,8 @@ public class AccountUtils {
     public static final String ACCOUNT_DEBITED_MESSAGE = "Account has been successfully debited";
     public static final String TRANSFER_SUCCESSFUL_CODE = "008";
     public static final String TRANSFER_SUCCESSFUL_MESSAGE = "Transfer successful";
+
+
     public static String generateAccountNumber() {
         // d aaact np. should have current year and any other 6 digit
         // i.e 2024 + ranbdom six digi
