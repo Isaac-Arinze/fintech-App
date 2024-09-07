@@ -31,16 +31,29 @@ public class User implements UserDetails {
     private String otherName;
     private String gender;
     private String address;
+    @Column(columnDefinition = "boolean default false")
+    private boolean isLoggedIn;
+    private LocalDateTime lastLoginDate;
     private String stateOfOrigin;
     private String accountNumber;
     private BigDecimal accountBalance;
+    @Column(name = "email", unique = true, nullable = false)
     private String email;
     @OneToOne(mappedBy = "user")
     private ForgotPassword forgotPassword;
+    @Column(name = "password", nullable = false)
     private String password;
     private String phoneNumber;
     private String alternativePhoneNumber;
     private String status;
+    @OneToMany(mappedBy = "user")
+    private List<Token> tokens;
+
+    @Column(name = "verification_token")
+    private String verificationToken;
+
+    @Column(name = "is_verified")
+    private boolean isVerified;
 
     private Role role;
     @CreationTimestamp

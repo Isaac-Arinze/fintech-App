@@ -23,7 +23,7 @@ public class JwtTokenProvider {
     @Value("${app.jwt-expiration}")
     private long jwtExpirationDate;
 
-    public String generateToken (Authentication authentication){
+    public String generateToken(Authentication authentication) {
         String username = authentication.getName();
         Date currentDate = new Date();
         Date expireDate = new Date(currentDate.getTime() + jwtExpirationDate);
@@ -36,13 +36,12 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-    private Key key(){
-
+    private Key key() {
         byte[] bytes = Decoders.BASE64.decode(jwtSecret);
         return Keys.hmacShaKeyFor(bytes);
     }
 
-    public String getUsername (String token){
+    public String getUsername(String token) {
         Claims claims = Jwts.parserBuilder()
                 .setSigningKey(key())
                 .build()
@@ -50,23 +49,33 @@ public class JwtTokenProvider {
                 .getBody();
 
         return claims.getSubject();
-
-    }
-    //to validate token to be sure dperoson claim to be who he is
-
-    public boolean validateToken (String token){
-
-        try{
-            Jwts.parserBuilder()
-                    .setSigningKey(key())
-                    .build()
-                    .parse(token);
-            return true;
-        } catch (ExpiredJwtException | MalformedJwtException | SignatureException | IllegalArgumentException e) {
-            throw new RuntimeException(e);
-        }
-
     }
 
+//    public boolean validateToken(String token) {
+//        try {
+//            Jwts.parserBuilder()
+//                    .setSigningKey(key())
+//                    .build()
+//                    .parse(token);
+//            return true;
+//        } catch (ExpiredJwtException | MalformedJwtException | SignatureException | IllegalArgumentException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
+public boolean validateToken(String token) {
+    try {
+        Jwts.parserBuilder()
+                .setSigningKey(key())
+                .build()
+                .parse(token);
+        return true;
+    } catch (ExpiredJwtException e) {
+        // Handle expired token
+        return false;
+    } catch (MalformedJwtException | SignatureException | IllegalArgumentException e) {
+        // Handle other exceptions
+        return false;
+    }
+}
 
 }
