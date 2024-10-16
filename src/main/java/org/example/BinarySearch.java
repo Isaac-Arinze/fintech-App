@@ -9,6 +9,7 @@ public class BinarySearch {
         int target = 9;
 
         int result = binarySearch(numSearch, target);
+        int result1 = linearSearch(numSearch, target);
 
         if (result != -1) {
             System.out.println("Index value found: " + result);
@@ -16,8 +17,25 @@ public class BinarySearch {
             System.out.println("Index value not found");
         }
     }
+    public static int linearSearch (int [] numSearch, int target){
 
-    private static int binarySearch(int[] numSearch, int target) {
+        int steps = 0;
+        for (int i = 0; i < numSearch.length; i++) {
+            steps++;
+            if (numSearch[i] == target){
+                System.out.println("Steps taken by linear : " + steps);
+                return i;
+
+            }
+
+        }
+        System.out.println("Steps taken by linear : " + steps);
+        return -1;
+    }
+
+
+    public static int binarySearch(int[] numSearch, int target) {
+
 
         //5,7,9,12,14, 16, 19
 
@@ -25,11 +43,14 @@ public class BinarySearch {
 
         int right = numSearch.length - 1;
 
+        int steps = 0;
         while (left <= right) {
+            steps++;
 
             int mid = (left + right) / 2;
 
             if (numSearch[mid] == target) {
+                System.out.println("Steps taken by binary : " + steps);
                 return mid;
             } else if (numSearch[mid] < target) {
                 left = mid + 1;
@@ -37,6 +58,7 @@ public class BinarySearch {
                 right = mid - 1;
 
         }
+        System.out.println("Steps taken by bianry : " + steps);
         return -1;
 
     }
