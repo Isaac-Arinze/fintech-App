@@ -1,0 +1,29 @@
+package defaultpackage;
+
+public class First {
+	
+	static final double PI = 3.142;
+	 
+	static String greeting = "Hello every1";
+	
+	public static void main(String [] arg) {
+		
+		int a = 6;
+		int b = 6;
+		
+		String name = "Sunday";
+		String surname = "Isaac";
+		
+		boolean isTrue = false;
+		String equalCheck = a == b? "Equal" : "Not Equal";
+		System.out.println(equalCheck);
+		
+		System.out.println("Thank you");
+		System.out.println(Math.PI	);
+		System.out.println(greeting);
+		
+		System.out.println(name == surname? "Correct" : "Not Correct");
+	}
+	
+
+}

@@ -1,0 +1,11 @@
+package defaultpackage;
+
+public class First {
+	
+	public static void main(String [] arg) {
+		
+		System.out.println("Thank you");
+		System.out.println("Thank you");
+	}
+
+}

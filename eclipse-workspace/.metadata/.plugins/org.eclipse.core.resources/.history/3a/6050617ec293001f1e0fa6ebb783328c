@@ -1,0 +1,17 @@
+package defaultpackage;
+
+public class First {
+	
+	static final double PI = 3.142;
+	 
+	static String greeting = "Hello every1";
+	
+	public static void main(String [] arg) {
+		
+		System.out.println("Thank you");
+		System.out.println(Math.PI);
+		System.out.println(greeting);
+	}
+	
+
+}
