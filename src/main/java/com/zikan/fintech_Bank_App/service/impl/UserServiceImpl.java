@@ -9,6 +9,7 @@ import com.zikan.fintech_Bank_App.service.EmailService;
 import com.zikan.fintech_Bank_App.service.TransactionService;
 import com.zikan.fintech_Bank_App.service.UserService;
 import com.zikan.fintech_Bank_App.utils.AccountUtils;
+import org.apache.coyote.BadRequestException;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -34,7 +35,6 @@ public class UserServiceImpl implements UserService {
     private final JwtTokenProvider jwtTokenProvider;
 
     private final ModelMapper modelMapper;
-
 
 
 
@@ -124,6 +124,26 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public BankResponse updateAccount(UserRequest userRequest, Long userId) {
+        return null;
+    }
+
+    @Override
+    public BankResponse deleteAccount(Long userId) {
+        return null;
+    }
+
+    @Override
+    public BankResponse verifyAccount(String token) {
+        return null;
+    }
+
+    @Override
+    public BankResponse logoutUser(Authentication authentication) throws BadRequestException {
+        return null;
+    }
+
+    @Override
     public BankResponse sendOtp() {
         return null;
     }
@@ -209,8 +229,6 @@ public class UserServiceImpl implements UserService {
                 .amount(request.getAmount())
                 .build();
         transactionService.saveTransaction(transactionDto);
-
-
         return BankResponse.builder()
 
                 .responseCode(AccountUtils.ACCOUNT_CREDIT_SUCCESS)

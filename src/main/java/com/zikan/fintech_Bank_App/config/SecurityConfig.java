@@ -55,7 +55,7 @@ public class SecurityConfig {
         httpSecurity
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authorize ->
-                        authorize.requestMatchers(HttpMethod.POST, "/api/user/create").permitAll()
+                        authorize.requestMatchers(HttpMethod.POST, "/api/user/**").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/api/user/login").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/api/v1/otp/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/otp/process").permitAll()

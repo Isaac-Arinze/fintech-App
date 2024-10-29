@@ -19,12 +19,12 @@ public interface UserRepository extends JpaRepository<User, Long> {
     User findByAccountNumber (String accountNumber);
 
     Optional <User> findByEmail(String email);
-    User findUserByEmail(String email);
+//    User findUserByEmail(String email);
+//
+//    @Transactional
+//    @Modifying
+//    @Query("update User u set u.password = ?2 where u.email = ?1")
+//    void updatePassword (String email, String password);
 
-    @Transactional
-    @Modifying
-    @Query("update User u set u.password = ?2 where u.email = ?1")
-    void updatePassword (String email, String password);
-
-    Optional<User> findByVerificationToken(String token);
+//    Optional<User> findByVerificationToken(String token);
 }
