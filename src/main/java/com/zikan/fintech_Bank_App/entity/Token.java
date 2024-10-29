@@ -1,34 +1,28 @@
 package com.zikan.fintech_Bank_App.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-
-import java.time.LocalDateTime;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "Token")
+@Table(name = "token")
 public class Token {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+    @Column(name = "id")
+    private Integer id;
+    @Column(name = "token")
+    private String token;
+    @Column(name = "is_logged_out")
+    private boolean loggedOut;
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id")
     private User user;
 
-    @Column(name = "token", unique = true, nullable = false)
-    private String token;
-
-    @CreationTimestamp
-    private LocalDateTime createdAt;
-
-    private LocalDateTime expiresAt;
-
-    private boolean isActive;
 }

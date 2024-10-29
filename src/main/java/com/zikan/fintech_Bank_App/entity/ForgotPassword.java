@@ -1,34 +1,26 @@
 package com.zikan.fintech_Bank_App.entity;
 
+
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Builder
 @Entity
-@Table(name = "ForgotPassword")
 public class ForgotPassword {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
 
+    private Integer fpid;
+    @Column(nullable = false)
+    private Integer otp;
+    @Column(nullable = false)
+    private Date expirationTime;
     @OneToOne
-    @JoinColumn(name = "user_id", nullable = false)
     private User user;
-
-    @Column(name = "reset_token", unique = true, nullable = false)
-    private String resetToken;
-
-    @CreationTimestamp
-    private LocalDateTime createdAt;
-
-    private LocalDateTime expiresAt;
-
-    private boolean isUsed;
 }

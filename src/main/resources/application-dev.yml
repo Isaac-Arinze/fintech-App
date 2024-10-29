@@ -13,7 +13,7 @@ spring:
     host: smtp.gmail.com
     port: 587
     username: skytecomputer@gmail.com
-    password: nrmj friw chck wlfc
+    password: nvmo qloa syff xrec
     properties:
       mail:
         smtp:

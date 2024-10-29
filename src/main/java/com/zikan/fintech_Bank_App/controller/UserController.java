@@ -30,7 +30,6 @@ public class UserController {
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
-
     @Operation(
             summary = "Create New User Account",
             description = "Creating a new user and assigning an account ID"

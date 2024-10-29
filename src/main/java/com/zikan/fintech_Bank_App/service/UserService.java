@@ -22,17 +22,17 @@ public interface UserService {
 
     BankResponse login (LoginDto loginDto);
 
+//    BankResponse sendOtp();
+//
+//    BankResponse validateOtp();
+//    BankResponse resetPassword();
+//    BankResponse changePassword();
+
     BankResponse updateAccount(UserRequest userRequest, Long userId);
 
     BankResponse deleteAccount (Long userId);
     BankResponse verifyAccount (String token);
     BankResponse logoutUser(Authentication authentication) throws BadRequestException;
-
-    BankResponse sendOtp();
-
-    BankResponse validateOtp();
-    BankResponse resetPassword();
-    BankResponse changePassword();
 
 
 }
