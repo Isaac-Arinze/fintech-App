@@ -1,6 +1,8 @@
 package com.zikan.fintech_Bank_App.service;
 
 import com.zikan.fintech_Bank_App.dto.*;
+import org.apache.coyote.BadRequestException;
+import org.springframework.security.core.Authentication;
 
 public interface UserService {
 
@@ -17,12 +19,20 @@ public interface UserService {
 
     BankResponse transfer (TransferRequest request);
 
+
     BankResponse login (LoginDto loginDto);
 
-    BankResponse sendOtp();
+//    BankResponse sendOtp();
+//
+//    BankResponse validateOtp();
+//    BankResponse resetPassword();
+//    BankResponse changePassword();
 
-    BankResponse validateOtp();
-    BankResponse resetPassword();
-    BankResponse changePassword();
+    BankResponse updateAccount(UserRequest userRequest, Long userId);
+
+    BankResponse deleteAccount (Long userId);
+    BankResponse verifyAccount (String token);
+    BankResponse logoutUser(Authentication authentication) throws BadRequestException;
+
 
 }

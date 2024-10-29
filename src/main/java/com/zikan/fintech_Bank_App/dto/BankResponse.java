@@ -17,4 +17,5 @@ public class BankResponse {
     private String responseMessage;
     private AccountInfo accountInfo; // we are makking use of composition here
     private OtpResponse otpResponse;
+
 }
