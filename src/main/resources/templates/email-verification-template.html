@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Skybanc Verification Email</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+            font-family: 'Open Sans', sans-serif;
+            font-size: 1rem;
+            font-weight: 400;
+            color: #707070;
+            background: #F5F5F5;
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        .btn {
+            border: 1px solid #33873e;
+            text-decoration: none;
+            color: #33873e;
+            padding: 15px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background-color: #074994;
+            color: #F5F5F5;
+        }
+
+        .m-t-0 {
+            margin-top: 0;
+        }
+
+        .m-b-1 {
+            margin-bottom: 1em;
+        }
+    </style>
+</head>
+<body style="margin: 0; padding: 0;">
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+    <tr>
+        <td style="padding: 10px 0 30px 0;">
+            <table align="center" border="0" cellpadding="0" cellspacing="0" width="600" style="border: 1px solid #cccccc; border-collapse: collapse;">
+                <tr>
+                    <td align="center" bgcolor="#074994" style="padding: 40px 0 30px 0; color: #153643; font-size: 28px; font-weight: bold; font-family: Arial, sans-serif;">
+                        <img class="" src="http://157.230.91.199/public/uploads/emedic.png" alt="logo">
+                    </td>
+                </tr>
+                <tr>
+                    <td bgcolor="#ffffff" style="padding: 40px 30px 40px 30px;">
+                        <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                            <tr>
+                                <td style="color: #153643; font-family: Arial, sans-serif; font-size: 20px;">
+                                    <b>Hi</b> <b th:text="${name}"> User,</b>,
+                                    <br>
+                                    <br>
+                                    <b style="color: #153643; font-family: Arial, sans-serif; font-size: 19px;">You got this email message because you requested.</b>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 2px 0 30px 0; color: #153643; font-family: Arial, sans-serif; font-size: 14px; line-height: 10px;">
+                                    Please, click on the button bellow to confirm your email address.
+                                    <br><br>Remember that you do more with   when your email is verified or confirmed.
+                                    <br><br><br>
+                                    <a th:href="${confirmationLink}" class="btn">Confirm My Email Address</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 5px 0 30px 0; color: #153643; font-family: Arial, sans-serif; font-size: 14px; line-height: 20px;">
+                                    We will love to answer any questions you have, feel free to contact us at <b>support@skybanc.com.ng</b> or on <b>+2348187422213</b>. You may also visit us at <a href="www.skybanc.com.ng">www.skybanc.com.ng</a>
+                                    <br><br>Cheers
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td bgcolor="#074994"  style="padding: 30px 30px 30px 30px;">
+                        <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                            <tr>
+                                <td style="color: #ffffff; font-family: Arial, sans-serif; font-size: 14px;" width="75%">
+                                    &reg; SkyBanc, <script>document.write(new Date().getFullYear());</script>
+
+                                    <br/>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

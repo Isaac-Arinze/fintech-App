@@ -20,6 +20,7 @@ import java.awt.*;
 import java.io.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 import java.util.List;
 
 @Component
@@ -136,7 +137,7 @@ public class BankStatement {
                 .recipient(user.getEmail())
                 .subject("STATEMENT OF ACCOUNT")
                 .messageBody("Kindly find your requested account statement attached")
-                .attachment(FILE)
+                .attachment(Collections.singletonList(FILE))
                 .build();
 
         emailService.sendEmailWithAttachment(emailDetails);

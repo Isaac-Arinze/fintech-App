@@ -1,5 +1,6 @@
 package com.zikan.fintech_Bank_App.service;
 
+import com.zikan.fintech_Bank_App.EmailTemplate;
 import com.zikan.fintech_Bank_App.dto.EmailDetails;
 
 public interface EmailService {
@@ -7,5 +8,7 @@ public interface EmailService {
 
 
     void sendEmailWithAttachment(EmailDetails emailDetails);
+
+    void sendEmailWithAttachment(EmailDetails emailDetails, EmailTemplate template);
 
 }

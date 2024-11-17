@@ -1,5 +1,7 @@
 package com.zikan.fintech_Bank_App.service.impl;
 
+import com.zikan.fintech_Bank_App.APIMessage;
+import com.zikan.fintech_Bank_App.EmailTemplate;
 import com.zikan.fintech_Bank_App.config.JwtTokenProvider;
 import com.zikan.fintech_Bank_App.dto.*;
 import com.zikan.fintech_Bank_App.entity.Role;
@@ -12,6 +14,9 @@ import com.zikan.fintech_Bank_App.service.TransactionService;
 import com.zikan.fintech_Bank_App.service.UserService;
 import com.zikan.fintech_Bank_App.utils.AccountUtils;
 import com.zikan.fintech_Bank_App.utils.Helper;
+import jakarta.servlet.http.HttpServletRequest;
+import jdk.jfr.Frequency;
+import lombok.RequiredArgsConstructor;
 import org.apache.coyote.BadRequestException;
 import org.modelmapper.ModelMapper;
 import org.springframework.mail.SimpleMailMessage;
@@ -24,9 +29,12 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final EmailService emailService;
@@ -38,21 +46,26 @@ public class UserServiceImpl implements UserService {
     private final ModelMapper modelMapper;
     private final TokenRepository tokenRepository;
     private final JavaMailSender mailSender;
+    private final HttpServletRequest request;
 
-    public UserServiceImpl(EmailService emailService, UserRepository userRepository, TransactionService transactionService,
-                           PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager,
-                           JwtTokenProvider jwtTokenProvider, ModelMapper modelMapper, TokenRepository tokenRepository,
-                           JavaMailSender mailSender) {
-        this.emailService = emailService;
-        this.userRepository = userRepository;
-        this.transactionService = transactionService;
-        this.passwordEncoder = passwordEncoder;
-        this.authenticationManager = authenticationManager;
-        this.jwtTokenProvider = jwtTokenProvider;
-        this.modelMapper = modelMapper;
-        this.tokenRepository = tokenRepository;
-        this.mailSender = mailSender;
-    }
+
+
+    private static final String CONFIRMATION_LINK = "confirmtionLink";
+
+//    public UserServiceImpl(EmailService emailService, UserRepository userRepository, TransactionService transactionService,
+//                           PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager,
+//                           JwtTokenProvider jwtTokenProvider, ModelMapper modelMapper, TokenRepository tokenRepository,
+//                           JavaMailSender mailSender) {
+//        this.emailService = emailService;
+//        this.userRepository = userRepository;
+//        this.transactionService = transactionService;
+//        this.passwordEncoder = passwordEncoder;
+//        this.authenticationManager = authenticationManager;
+//        this.jwtTokenProvider = jwtTokenProvider;
+//        this.modelMapper = modelMapper;
+//        this.tokenRepository = tokenRepository;
+//        this.mailSender = mailSender;
+//    }
 
     @Override
     public BankResponse createAccount(UserRequest userRequest) {
@@ -86,7 +99,7 @@ public class UserServiceImpl implements UserService {
         User savedUser = userRepository.save(newUser);
 
         String verificationLink = "http://localhost:8080/api/user/verify?token=" + newUser.getVerificationToken();
-        sendVerificationEmail(savedUser.getEmail(), verificationLink);
+        sendVerificationEmail(savedUser.getFirstName(), savedUser.getEmail(), "Verify your account", "Email verification", verificationLink);
 
         return BankResponse.builder()
                 .responseCode(AccountUtils.ACCOUNT_CREATION_SUCCESS)
@@ -99,12 +112,36 @@ public class UserServiceImpl implements UserService {
                 .build();
     }
 
-    private void sendVerificationEmail(String email, String verificationLink) {
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(email);
-        message.setSubject("Account Verification");
-        message.setText("Please verify your account by clicking the following link: " + verificationLink);
-        mailSender.send(message);
+//    private void sendVerificationEmail(String email, String verificationLink) {
+//        SimpleMailMessage message = new SimpleMailMessage();
+//        message.setTo(email);
+//        message.setSubject("Account Verification");
+//        message.setText("Please verify your account by clicking the following link: " + verificationLink);
+//        mailSender.send(message);
+//    }
+
+    public void sendVerificationEmail(String username, String emailAddress, String message, String subject, String verificationLink) {
+        EmailDetails mail = getEmailByTemplate(emailAddress, subject);
+
+        Map<String, Object> model = new HashMap<>();
+        model.put("name", username);
+        model.put("body", message);
+//        model.put("otp", otp);
+        model.put("confirmationLink", verificationLink);
+        mail.setProps(model);
+
+        emailService.sendEmailWithAttachment(mail, EmailTemplate.REQUEST_OTP);
+    }
+
+    private EmailDetails getEmailByTemplate(String emailAddress, String subject) {
+        EmailDetails mall = new EmailDetails();
+        mall.setFrom(APIMessage.EMAIL_SEND_FROM);
+        mall.setRecipient(emailAddress);
+        mall.setSubject(subject);
+        return mall;
+    }
+    private String getServerUrl(){
+        return String.format("%s%s", "http://", request.getHeader("host"));
     }
 
     @Override
