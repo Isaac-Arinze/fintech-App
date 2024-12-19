@@ -3,8 +3,8 @@ spring:
     name: fintech-Bank-App
   datasource:
     url: jdbc:postgresql://localhost:5432/Bank_DB
-    username:
-    password:
+    username: postgres
+    password: newpassword
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
