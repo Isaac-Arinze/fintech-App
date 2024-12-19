@@ -1,0 +1,50 @@
+spring:
+  application:
+    name: fintech-Bank-App
+  datasource:
+    url: jdbc:postgresql://localhost:5432/Bank_DB
+    username:
+    password:
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      dialect: org.hibernate.dialect.PostgreSQLDialect
+      ddl-auto: update
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: skytecomputer@gmail.com
+    password: nvmo qloa syff xrec
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            client-id: Ov23li66crkpr1Mv0aIC
+            client-secret: cd0ac55f07feb4f76f77e9c9e3e00982afef2c83
+          google:
+            client-id: 228783255239-1r20mt6fdufo8g8bn12nh0c3n4vr4o32.apps.googleusercontent.com
+            client-secret: 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
+logging:
+  level:
+    org:
+      springframework:
+        security: TRACE
+app:
+  jwt-secret: 8e3f0b1d5d2a4c8b92e1fc1a765bf2434d6c72e6f5b943e2c1c1e2d6b4db7a22
+  jwt-expiration: 86400000
+
+twilio:
+  accountSid: AC76e5b4b4000bb517c34d4ff3321383df
+  authToken: 39b3e4de4d6e8e78c96a7d2a679e3fbb
+  phoneNumber: +12566241584
+
+
+
+
