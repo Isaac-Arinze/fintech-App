@@ -1,12 +1,8 @@
 package com.zikan.fintech_Bank_App.config;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import io.jsonwebtoken.security.SignatureException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
@@ -17,56 +13,55 @@ import java.util.Date;
 @Component
 public class JwtTokenProvider {
 
-    @Value("${app.jwt-secret}")
+    @Value("${JWT_SECRET}")
     private String jwtSecret;
 
     @Value("${app.jwt-expiration}")
     private long jwtExpirationDate;
 
-    public String generateToken (Authentication authentication){
+    public String generateToken(Authentication authentication) {
         String username = authentication.getName();
-        Date currentDate = new Date();
-        Date expireDate = new Date(currentDate.getTime() + jwtExpirationDate);
+        Date now = new Date();
+        Date expiryDate = new Date(now.getTime() + jwtExpirationDate);
 
         return Jwts.builder()
                 .setSubject(username)
-                .setIssuedAt(currentDate)
-                .setExpiration(expireDate)
-                .signWith(key())
+                .setIssuedAt(now)
+                .setExpiration(expiryDate)
+                .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
 
-    private Key key(){
-
-        byte[] bytes = Decoders.BASE64.decode(jwtSecret);
-        return Keys.hmacShaKeyFor(bytes);
+    private Key getSigningKey() {
+        byte[] keyBytes = Decoders.BASE64.decode(jwtSecret);
+        return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public String getUsername (String token){
+    public String getUsernameFromToken(String token) {
         Claims claims = Jwts.parserBuilder()
-                .setSigningKey(key())
+                .setSigningKey(getSigningKey())
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
 
         return claims.getSubject();
-
     }
-    //to validate token to be sure dperoson claim to be who he is
 
-    public boolean validateToken (String token){
-
-        try{
+    public boolean validateToken(String token) {
+        try {
             Jwts.parserBuilder()
-                    .setSigningKey(key())
+                    .setSigningKey(getSigningKey())
                     .build()
-                    .parse(token);
+                    .parseClaimsJws(token);
             return true;
-        } catch (ExpiredJwtException | MalformedJwtException | SignatureException | IllegalArgumentException e) {
-            throw new RuntimeException(e);
+        } catch (ExpiredJwtException e) {
+            throw new RuntimeException("JWT has expired", e);
+        } catch (MalformedJwtException e) {
+            throw new RuntimeException("Malformed JWT token", e);
+        } catch (SignatureException e) {
+            throw new RuntimeException("Invalid JWT signature", e);
+        } catch (IllegalArgumentException e) {
+            throw new RuntimeException("Invalid JWT token", e);
         }
-
     }
-
-
 }

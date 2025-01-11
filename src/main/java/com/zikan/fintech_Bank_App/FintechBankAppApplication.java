@@ -16,7 +16,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
-@EnableConfigurationProperties
+@EnableConfigurationProperties(TwilloConfig.class)
 @OpenAPIDefinition(
 		info = @Info(
 				title = "Demo Bank APP",

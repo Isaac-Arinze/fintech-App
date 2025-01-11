@@ -40,6 +40,7 @@ public class UserServiceImpl implements UserService {
 
     public UserServiceImpl(EmailService emailService, UserRepository userRepository, TransactionService transactionService, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider, ModelMapper modelMapper) {
         this.emailService = emailService;
+
         this.userRepository = userRepository;
         this.transactionService = transactionService;
         this.passwordEncoder = passwordEncoder;

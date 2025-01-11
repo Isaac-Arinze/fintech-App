@@ -57,12 +57,15 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize ->
                         authorize.requestMatchers(HttpMethod.POST, "/api/user/**").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/api/user/balanceEnquiry").permitAll()
+                                .requestMatchers(HttpMethod.POST, "api/user/create").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/api/v1/otp/**").permitAll()
 //                                .requestMatchers(HttpMethod.GET, "/api/otp/process").permitAll()
 //                                .requestMatchers(HttpMethod.POST, "/api/otp/send-otp-sms").permitAll()
 //                                .requestMatchers(HttpMethod.POST, "/api/otp/validate-otp-sms").permitAll()
                                 .requestMatchers("/public/**").permitAll() // Allow access to public endpoints
                                 .requestMatchers("/admin/**").hasRole("ADMIN")
+                                .requestMatchers("/user/**").hasAnyRole("USER", "ADMIN")
                                 .anyRequest().authenticated())
 //                .oauth2Login(withDefaults())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

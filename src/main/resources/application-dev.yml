@@ -1,50 +1,53 @@
 spring:
   application:
     name: fintech-Bank-App
+
   datasource:
-    url: jdbc:mysql://localhost:3306/bankdb
-    username: root
-    password: Zikans@19
-    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: ${DATABASE_URL}
+    url: jdbc:postgresql://localhost:5432/Bank_DB
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+
   jpa:
     hibernate:
+      dialect: org.hibernate.dialect.PostgreSQLDialect
       ddl-auto: update
+    generate-ddl: true
+
   mail:
     host: smtp.gmail.com
     port: 587
-    username: skytecomputer@gmail.com
-    password: nvmo qloa syff xrec
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
     properties:
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enable: true
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+
   security:
     oauth2:
       client:
         registration:
           github:
-            client-id: Ov23li66crkpr1Mv0aIC
-            client-secret: cd0ac55f07feb4f76f77e9c9e3e00982afef2c83
+            client-id: ${GITHUB_CLIENT_ID}
+            client-secret: ${GITHUB_CLIENT_SECRET}
           google:
-            client-id: 228783255239-1r20mt6fdufo8g8bn12nh0c3n4vr4o32.apps.googleusercontent.com
-            client-secret: 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
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
+
 logging:
   level:
-    org:
-      springframework:
-        security: TRACE
+    org.springframework.security: TRACE
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql: TRACE
+
 app:
-  jwt-secret: 8e3f0b1d5d2a4c8b92e1fc1a765bf2434d6c72e6f5b943e2c1c1e2d6b4db7a22
+  jwt-secret: ${JWT_SECRET}
   jwt-expiration: 86400000
 
 twilio:
-  accountSid: AC76e5b4b4000bb517c34d4ff3321383df
-  authToken: 39b3e4de4d6e8e78c96a7d2a679e3fbb
+  accountSid: ${TWILIO_ACCOUNT_SID}
+  authToken: ${TWILIO_AUTH_TOKEN}
   phoneNumber: +12566241584
-
-
-
-
-
+server:
+  port: 8089

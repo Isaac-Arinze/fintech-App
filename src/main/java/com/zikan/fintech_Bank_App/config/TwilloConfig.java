@@ -8,13 +8,15 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 @Configuration
+@ConfigurationProperties(prefix = "twillo")
 @Data
+@Component
 public class TwilloConfig {
 
-    @Value("${twilio.accountSid}")
+    @Value("${TWILIO_ACCOUNT_SID}")
     private String accountSid;
 
-    @Value("${twilio.authToken}")
+    @Value("${TWILIO_AUTH_TOKEN}")
     private String authToken;
 
     @Value("${twilio.phoneNumber}")
