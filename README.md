@@ -35,9 +35,8 @@ This application is a simple yet powerful banking platform designed to provide t
   
   
   docker-compose up
-  5️⃣ Access the application:
-  Open your browser and navigate to the URL or port specified in the configuration (e.g., http://localhost:3000).
-  
+
+
   6️⃣ Stop the application (when needed):
   Gracefully stop the Docker containers:
   
