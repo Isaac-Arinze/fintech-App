@@ -9,7 +9,7 @@ This application is a simple yet powerful banking platform designed to provide t
   ✔️ KYC (Know Your Customer): Comply with regulatory requirements by verifying user identity.
   📲 USSD Integration (🚧 Work in Progress): Enable seamless onboarding and transactions for rural communities with offline accessibility.
   ⚙️ How to Use This Application
-  1️⃣ Clone the project repository:
+  1️⃣ Clone the project repository update:
 
 
   git clone https://github.com/Isaac-Arinze/fintech-App.git
